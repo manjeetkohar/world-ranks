@@ -21,6 +21,30 @@ const getCountry = async (id) => {
     }
 
 }
+const getCurrency = (country) => {
+    var value = "";
+    try {
+        value = country.currencies.map(({ name, symbol }) => `${name}  ${symbol}`).toString();
+    }
+    catch (e) {
+        console.log(e)
+        value = "Currency Not Avai.";
+    }
+    return value;
+}
+const getBorder = (borders) => {
+    try {
+        return (borders.map((border) => (
+            <div key={border.alpha3Code} className={styles.detail_panel_borders_country}>
+                <img src={border.flag} alt={border.name} />
+                <div className={styles.detail_panel_borders_name}>{border.name}</div>
+            </div>
+        )));
+    } catch (e) {
+        console.log(e);
+        return <div>No Neighbouring Country</div>;
+    }
+}
 
 const Country = ({ country }) => {
     const [borders, setBorders] = useState([]);
@@ -78,7 +102,7 @@ const Country = ({ country }) => {
                         </div>
                         <div className={styles.detail_panel_rows}>
                             <div className={styles.detail_labels}>Currencies</div>
-                            <div className={styles.detail_values}>{country.currencies.map(({ name, symbol }) => `${name} ${symbol}`)}</div>
+                            <div className={styles.detail_values}>{getCurrency(country)}</div>
                         </div>
                         <div className={styles.detail_panel_rows}>
 
@@ -95,13 +119,7 @@ const Country = ({ country }) => {
                             </div>
                             <div className={styles.test}>
                                 {
-                                    borders.map((border) => (
-                                        <div key={border.alpha3Code} className={styles.detail_panel_borders_country}>
-                                            <img src={border.flag} alt={border.name} />
-                                            <div className={styles.detail_panel_borders_name}>{border.name}</div>
-                                        </div>
-
-                                    ))
+                                    getBorder(borders)
                                 }
                             </div>
                         </div>
