@@ -23,15 +23,15 @@ const getCountry = async (id) => {
 }
 
 const Country = ({ country }) => {
-    const [borders, setBorders] = useState([{ borders: [] }]);
-    console.log(borders)
+    const [borders, setBorders] = useState([]);
     const getBorders = async () => {
         try {
             var array = await Promise.all(country.borders.map((border) => getCountry(border)));
         } catch (e) { console.log(e) }
         setBorders(array);
-
     };
+
+
     useEffect(() => {
 
         getBorders();
@@ -94,6 +94,15 @@ const Country = ({ country }) => {
                                 Neighbouring Countries
                             </div>
                             <div className={styles.test}>
+                                {
+                                    borders.map((border) => (
+                                        <div key={border.alpha3Code} className={styles.detail_panel_borders_country}>
+                                            <img src={border.flag} alt={border.name} />
+                                            <div className={styles.detail_panel_borders_name}>{border.name}</div>
+                                        </div>
+
+                                    ))
+                                }
                             </div>
                         </div>
                     </div>
